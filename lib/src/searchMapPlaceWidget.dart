@@ -4,6 +4,8 @@ class SearchMapPlaceWidget extends StatefulWidget {
   SearchMapPlaceWidget({
     @required this.apiKey,
     this.placeholder = 'Search',
+    this.placeholderStyle,
+    this.resultsStyle,
     this.icon = Icons.search,
     this.iconColor = Colors.blue,
     this.onSelected,
@@ -19,6 +21,12 @@ class SearchMapPlaceWidget extends StatefulWidget {
 
   /// Placeholder text to show when the user has not entered any input.
   final String placeholder;
+
+  /// Style for the placeholder text to show when the user has not entered any input.
+  final TextStyle placeholderStyle;
+
+  /// Style for the results text.
+  final TextStyle resultsStyle;
 
   /// The callback that is called when one Place is selected by the user.
   final void Function(Place place) onSelected;
@@ -179,6 +187,7 @@ class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with Single
   InputDecoration _inputStyle() {
     return InputDecoration(
       hintText: this.widget.placeholder,
+      hintStyle: this.widget.placeholderStyle,
       border: InputBorder.none,
       contentPadding: EdgeInsets.symmetric(horizontal: 0.0, vertical: 0.0),
     );
