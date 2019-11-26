@@ -14,7 +14,11 @@ class SearchMapPlaceWidget extends StatefulWidget {
     this.location,
     this.radius,
     this.strictBounds = false,
+    this.textEditingController
   }) : assert((location == null && radius == null) || (location != null && radius != null));
+
+  /// Used to allow clearing from outside the widget.
+  TextEditingController textEditingController = TextEditingController();
 
   /// API Key of the Google Maps API.
   final String apiKey;
@@ -65,7 +69,7 @@ class SearchMapPlaceWidget extends StatefulWidget {
 }
 
 class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with SingleTickerProviderStateMixin {
-  TextEditingController _textEditingController = TextEditingController();
+  TextEditingController _textEditingController;
   AnimationController _animationController;
   // SearchContainer height.
   Animation _containerHeight;
@@ -79,6 +83,7 @@ class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with Single
 
   @override
   void initState() {
+    _textEditingController = widget.textEditingController;
     _selectedPlace = null;
     _placePredictions = [];
     geocode = Geocoding(apiKey: widget.apiKey, language: widget.language);
