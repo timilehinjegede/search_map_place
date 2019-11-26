@@ -75,6 +75,7 @@ class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with Single
   List<dynamic> _placePredictions = [];
   Place _selectedPlace;
   Geocoding geocode;
+  bool mustBeClosed = false;
 
   @override
   void initState() {
@@ -224,12 +225,15 @@ class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with Single
           error += " Make sure the Places API is activated on your Google Cloud Platform";
         throw Exception(error);
       } else {
-        final predictions = json["predictions"];
-        await _animationController.animateTo(0.5);
-        setState(() => _placePredictions = predictions);
-        await _animationController.forward();
+        if(!mustBeClosed){
+          final predictions = json["predictions"];
+          await _animationController.animateTo(0.5);
+          setState(() => _placePredictions = predictions);
+          await _animationController.forward();
+        }
       }
     } else {
+      mustBeClosed = true;
       await _animationController.animateTo(0.5);
       setState(() => _placePredictions = []);
       await _animationController.reverse();
