@@ -239,11 +239,16 @@ class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with Single
         }
       }
     } else {
-      mustBeClosed = true;
-      await _animationController.animateTo(0.5);
-      setState(() => _placePredictions = []);
-      await _animationController.reverse();
+      reset();
     }
+  }
+
+  void reset() async {
+    _textEditingController.clear();
+    mustBeClosed = true;
+    await _animationController.animateTo(0.5);
+    setState(() => _placePredictions = []);
+    await _animationController.reverse();
   }
 
   void _selectPlace(Place prediction) async {
