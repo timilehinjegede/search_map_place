@@ -2,6 +2,7 @@ part of search_map_place;
 
 class SearchMapPlaceWidget extends StatefulWidget {
   SearchMapPlaceWidget({
+    this.key,
     @required this.apiKey,
     this.placeholder = 'Search',
     this.placeholderStyle,
@@ -16,6 +17,8 @@ class SearchMapPlaceWidget extends StatefulWidget {
     this.strictBounds = false,
     this.textEditingController
   }) : assert((location == null && radius == null) || (location != null && radius != null));
+
+  GlobalKey<SearchMapPlaceWidgetState> key;
 
   /// Used to allow clearing from outside the widget.
   TextEditingController textEditingController = TextEditingController();
@@ -65,10 +68,10 @@ class SearchMapPlaceWidget extends StatefulWidget {
   final Color iconColor;
 
   @override
-  _SearchMapPlaceWidgetState createState() => _SearchMapPlaceWidgetState();
+  SearchMapPlaceWidgetState createState() => SearchMapPlaceWidgetState();
 }
 
-class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with SingleTickerProviderStateMixin {
+class SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with SingleTickerProviderStateMixin {
   TextEditingController _textEditingController;
   AnimationController _animationController;
   // SearchContainer height.
@@ -79,7 +82,7 @@ class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with Single
   List<dynamic> _placePredictions = [];
   Place _selectedPlace;
   Geocoding geocode;
-  bool mustBeClosed = false;
+  bool mustBeClosed = true;
 
   @override
   void initState() {
@@ -244,9 +247,8 @@ class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with Single
   }
 
   void reset() async {
-    _textEditingController.clear();
     mustBeClosed = true;
-    await _animationController.animateTo(0.5);
+//    await _animationController.animateTo(0.5);
     setState(() => _placePredictions = []);
     await _animationController.reverse();
   }
