@@ -208,6 +208,7 @@ class _SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with Single
     /// Api and giving the user Place options
 
     if (input.length > 0) {
+      mustBeClosed = false;
       String url =
           "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=${widget.apiKey}&language=${widget.language}";
       if (widget.location != null && widget.radius != null) {
