@@ -125,7 +125,7 @@ class SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with SingleT
           return Container(
             height: _containerHeight.value,
             decoration: _containerDecoration(),
-            padding: EdgeInsets.only(left: 0, right: 0, top: 15),
+            padding: EdgeInsets.only(left: 0, right: 0, top: 4, bottom: 0),
             alignment: Alignment.center,
             child: Column(
               children: <Widget>[
@@ -133,7 +133,7 @@ class SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with SingleT
                   padding: const EdgeInsets.symmetric(horizontal: 12.0),
                   child: child,
                 ),
-                SizedBox(height: 10),
+//                SizedBox(height: 5),
                 Opacity(
                   opacity: _listOpacity.value,
                   child: Column(
