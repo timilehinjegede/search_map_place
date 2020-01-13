@@ -158,7 +158,8 @@ class SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with SingleT
             child: TextField(
               decoration: _inputStyle(),
               controller: _textEditingController,
-              style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),
+//              style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),
+            style: this.widget.placeholderStyle,
               onChanged: (value) => setState(() => _autocompletePlace(value)),
             ),
           ),
@@ -176,12 +177,12 @@ class SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with SingleT
     String place = prediction.description;
 
     return MaterialButton(
-      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 3),
+      padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
       onPressed: () => _selectPlace(prediction),
       child: ListTile(
         title: Text(
           place.length < 45 ? "$place" : "${place.replaceRange(45, place.length, "")} ...",
-          style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),
+          style: this.widget.resultsStyle,
           maxLines: 1,
         ),
         contentPadding: EdgeInsets.symmetric(
