@@ -15,7 +15,8 @@ class SearchMapPlaceWidget extends StatefulWidget {
     this.location,
     this.radius,
     this.strictBounds = false,
-    this.textEditingController
+    this.textEditingController,
+    this.width
   }) : assert((location == null && radius == null) || (location != null && radius != null));
 
   GlobalKey<SearchMapPlaceWidgetState> key;
@@ -67,6 +68,9 @@ class SearchMapPlaceWidget extends StatefulWidget {
   /// The color of the icon to show in the search box
   final Color iconColor;
 
+  /// The width of the searchbar
+  final double width;
+
   @override
   SearchMapPlaceWidgetState createState() => SearchMapPlaceWidgetState();
 }
@@ -111,7 +115,7 @@ class SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with SingleT
 
   @override
   Widget build(BuildContext context) => Container(
-        width: MediaQuery.of(context).size.width * 0.9,
+        width: widget.width != null ? widget.width : MediaQuery.of(context).size.width * 0.9,
         child: _searchContainer(
           child: _searchInput(context),
         ),
