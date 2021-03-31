@@ -217,15 +217,15 @@ class SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with SingleT
 
     if (input.length > 0) {
       mustBeClosed = false;
-      String url =
+      String urlString =
           "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=${widget.apiKey}&language=${widget.language}";
       if (widget.location != null && widget.radius != null) {
-        url += "&location=${widget.location.latitude},${widget.location.longitude}&radius=${widget.radius}";
+        urlString += "&location=${widget.location.latitude},${widget.location.longitude}&radius=${widget.radius}";
         if (widget.strictBounds) {
-          url += "&strictbounds";
+          urlString += "&strictbounds";
         }
       }
-      final response = await http.get(url);
+      final response = await http.get(Uri.parse(urlString));
       final json = JSON.jsonDecode(response.body);
 
       if (json["error_message"] != null) {
