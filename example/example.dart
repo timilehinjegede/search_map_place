@@ -5,7 +5,7 @@ import 'package:flutter/material.dart';
 import 'package:search_map_place/search_map_place.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 
-String apiKEY;
+String? apiKEY;
 
 void main() => runApp(MyApp());
 
@@ -25,6 +25,8 @@ class MapSample extends StatefulWidget {
 }
 
 class MapSampleState extends State<MapSample> {
+  final String API_KEY = 'YOUR_API_KEY';
+
   Completer<GoogleMapController> _mapController = Completer();
 
   final CameraPosition _initialCamera = CameraPosition(
@@ -54,7 +56,7 @@ class MapSampleState extends State<MapSample> {
               location: _initialCamera.target,
               radius: 30000,
               onSelected: (place) async {
-                final geolocation = await place.geolocation;
+                final geolocation = await (place.geolocation as FutureOr<Geolocation>);
 
                 final GoogleMapController controller = await _mapController.future;
 

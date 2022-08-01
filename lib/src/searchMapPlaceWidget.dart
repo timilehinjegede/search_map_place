@@ -3,7 +3,7 @@ part of search_map_place;
 class SearchMapPlaceWidget extends StatefulWidget {
   SearchMapPlaceWidget({
     this.key,
-    @required this.apiKey,
+    required this.apiKey,
     this.placeholder = 'Search',
     this.placeholderStyle,
     this.resultsStyle,
@@ -19,10 +19,10 @@ class SearchMapPlaceWidget extends StatefulWidget {
     this.width
   }) : assert((location == null && radius == null) || (location != null && radius != null));
 
-  GlobalKey<SearchMapPlaceWidgetState> key;
+  GlobalKey<SearchMapPlaceWidgetState>? key;
 
   /// Used to allow clearing from outside the widget.
-  TextEditingController textEditingController = TextEditingController();
+  TextEditingController? textEditingController = TextEditingController();
 
   /// API Key of the Google Maps API.
   final String apiKey;
@@ -31,16 +31,16 @@ class SearchMapPlaceWidget extends StatefulWidget {
   final String placeholder;
 
   /// Style for the placeholder text to show when the user has not entered any input.
-  final TextStyle placeholderStyle;
+  final TextStyle? placeholderStyle;
 
   /// Style for the results text.
-  final TextStyle resultsStyle;
+  final TextStyle? resultsStyle;
 
   /// The callback that is called when one Place is selected by the user.
-  final void Function(Place place) onSelected;
+  final void Function(Place place)? onSelected;
 
   /// The callback that is called when the user taps on the search icon.
-  final void Function(Place place) onSearch;
+  final void Function(Place place)? onSearch;
 
   /// Language used for the autocompletion.
   ///
@@ -50,14 +50,14 @@ class SearchMapPlaceWidget extends StatefulWidget {
   /// The point around which you wish to retrieve place information.
   ///
   /// If this value is provided, `radius` must be provided aswell.
-  final LatLng location;
+  final LatLng? location;
 
   /// The distance (in meters) within which to return place results. Note that setting a radius biases results to the indicated area, but may not fully restrict results to the specified area.
   ///
   /// If this value is provided, `location` must be provided aswell.
   ///
   /// See [Location Biasing and Location Restrict](https://developers.google.com/places/web-service/autocomplete#location_biasing) in the documentation.
-  final int radius;
+  final int? radius;
 
   /// Returns only those places that are strictly within the region defined by location and radius. This is a restriction, rather than a bias, meaning that results outside this region will not be returned even if they match the user input.
   final bool strictBounds;
@@ -69,23 +69,23 @@ class SearchMapPlaceWidget extends StatefulWidget {
   final Color iconColor;
 
   /// The width of the searchbar
-  final double width;
+  final double? width;
 
   @override
   SearchMapPlaceWidgetState createState() => SearchMapPlaceWidgetState();
 }
 
 class SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with SingleTickerProviderStateMixin {
-  TextEditingController _textEditingController;
-  AnimationController _animationController;
+  TextEditingController? _textEditingController;
+  late AnimationController _animationController;
   // SearchContainer height.
-  Animation _containerHeight;
+  late Animation _containerHeight;
   // Place options opacity.
-  Animation _listOpacity;
+  late Animation _listOpacity;
 
-  List<dynamic> _placePredictions = [];
-  Place _selectedPlace;
-  Geocoding geocode;
+  List<dynamic>? _placePredictions = [];
+  Place? _selectedPlace;
+  Geocoding? geocode;
   bool mustBeClosed = true;
 
   @override
@@ -122,7 +122,7 @@ class SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with SingleT
       );
 
   // Widgets
-  Widget _searchContainer({Widget child}) {
+  Widget _searchContainer({Widget? child}) {
     return AnimatedBuilder(
         animation: _animationController,
         builder: (context, _) {
@@ -142,8 +142,8 @@ class SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with SingleT
                   opacity: _listOpacity.value,
                   child: Column(
                     children: <Widget>[
-                      if (_placePredictions.length > 0)
-                        for (var prediction in _placePredictions)
+                      if (_placePredictions!.length > 0)
+                        for (var prediction in _placePredictions!)
                           _placeOption(Place.fromJSON(prediction, geocode)),
                     ],
                   ),
@@ -170,7 +170,7 @@ class SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with SingleT
           Container(width: 15),
           GestureDetector(
             child: Icon(this.widget.icon, color: this.widget.iconColor),
-            onTap: () => widget.onSearch(Place.fromJSON(_selectedPlace, geocode)),
+            onTap: () => widget.onSearch!(Place.fromJSON(_selectedPlace, geocode)),
           )
         ],
       ),
@@ -178,7 +178,7 @@ class SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with SingleT
   }
 
   Widget _placeOption(Place prediction) {
-    String place = prediction.description;
+    String place = prediction.description!;
 
     return MaterialButton(
       padding: EdgeInsets.symmetric(horizontal: 12, vertical: 2),
@@ -225,7 +225,7 @@ class SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with SingleT
       String urlString =
           "https://maps.googleapis.com/maps/api/place/autocomplete/json?input=$input&key=${widget.apiKey}&language=${widget.language}";
       if (widget.location != null && widget.radius != null) {
-        urlString += "&location=${widget.location.latitude},${widget.location.longitude}&radius=${widget.radius}";
+        urlString += "&location=${widget.location!.latitude},${widget.location!.longitude}&radius=${widget.radius}";
         if (widget.strictBounds) {
           urlString += "&strictbounds";
         }
@@ -262,9 +262,9 @@ class SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with SingleT
     /// Will be called when a user selects one of the Place options.
 
     // Sets TextField value to be the location selected
-    _textEditingController.value = TextEditingValue(
-      text: prediction.description,
-      selection: TextSelection.collapsed(offset: prediction.description.length),
+    _textEditingController!.value = TextEditingValue(
+      text: prediction.description!,
+      selection: TextSelection.collapsed(offset: prediction.description!.length),
     );
 
     // Makes animation
@@ -276,6 +276,6 @@ class SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with SingleT
     _animationController.reverse();
 
     // Calls the `onSelected` callback
-    widget.onSelected(prediction);
+    widget.onSelected!(prediction);
   }
 }

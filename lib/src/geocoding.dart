@@ -2,8 +2,8 @@ part of search_map_place;
 
 class Geocoding {
   Geocoding({this.apiKey, language = 'en'});
-  String apiKey;
-  String language;
+  String? apiKey;
+  String? language;
 
   Future<dynamic> getGeolocation(String adress) async {
     String trimmedAdress = adress.replaceAllMapped(' ', (m) => '+');
