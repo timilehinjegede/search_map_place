@@ -164,7 +164,9 @@ class SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with SingleT
               controller: _textEditingController,
 //              style: TextStyle(fontSize: MediaQuery.of(context).size.width * 0.04),
             style: this.widget.placeholderStyle,
-              onChanged: (value) => setState(() => _autocompletePlace(value)),
+              onChanged: (value) => setState(() {
+                _autocompletePlace(value);
+              }),
             ),
           ),
           Container(width: 15),
@@ -216,7 +218,7 @@ class SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget> with SingleT
   }
 
   // Methods
-  void _autocompletePlace(String input) async {
+  Future<void> _autocompletePlace(String input) async {
     /// Will be called everytime the input changes. Making callbacks to the Places
     /// Api and giving the user Place options
 
