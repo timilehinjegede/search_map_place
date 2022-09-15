@@ -212,7 +212,7 @@ class SearchMapPlaceWidgetState extends State<SearchMapPlaceWidget>
         if (!mustBeClosed) {
           final predictions = json["predictions"];
           await _animationController.animateTo(0.5);
-          setState(() => _placePredictions = predictions);
+          if (mounted) setState(() => _placePredictions = predictions);
           await _animationController.forward();
         }
       }
